@@ -13,4 +13,12 @@ public class Customer {
     public String toString() {
         return "Customer [id=" + id + ", name=" + name + "]";
     }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public String getName() {
+        return this.name;
+    }
 }
