@@ -25,7 +25,7 @@ SET default_table_access_method = heap;
 --
 
 CREATE TABLE public.customers (
-    id character varying(8) NOT NULL,
+    id character varying(8) NOT NULL UNIQUE,
     name character varying(80) NOT NULL
 );
 
@@ -37,7 +37,7 @@ ALTER TABLE public.customers OWNER TO tof_;
 --
 
 CREATE TABLE public.orders (
-    id character varying(8) NOT NULL,
+    id character varying(8) NOT NULL UNIQUE,
     customerid character varying(8),
     start date NOT NULL,
     duration integer NOT NULL,
