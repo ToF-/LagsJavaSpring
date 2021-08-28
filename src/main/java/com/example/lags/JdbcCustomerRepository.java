@@ -1,5 +1,6 @@
 package com.example.lags;
 
+import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -34,5 +35,16 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public List<Customer> findAll() {
         return jdbcTemplate.query("SELECT * FROM CUSTOMERS", customerRowMapper);
+    }
+
+    @Override
+    public boolean create(Customer customer) {
+        try {
+            jdbcTemplate.update("INSERT INTO CUSTOMERS (Id, Name) VALUES (?, ?)", customer.getId(), customer.getName());
+        }
+        catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 }

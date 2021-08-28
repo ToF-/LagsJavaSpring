@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Customers</title>
@@ -14,6 +13,9 @@
     <tr th:each="customer : ${customerList}">
     <td class="align-middle" th:text="${customer.getId()}"></td>
     <td class="align-middle" th:text="${customer.getName()}"></td>
+    </tr>
+    <tr>
+        <a href="/customerEdit">New Customer</a>
     </tr>
 </table>
 </body>
