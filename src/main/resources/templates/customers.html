@@ -19,6 +19,7 @@
     <td class="align-middle" th:text="${customer.getId()}"></td>
     <td class="align-middle" th:text="${customer.getName()}"></td>
     <td class="align-middle"><a th:href="@{customerUpdate/{id}(id=${customer.getId()})}">Edit</a></td>
+    <td class="align-middle"><a th:href="@{customerDelete/{id}(id=${customer.getId()})}">Delete</a></td>
     </tr>
     <tr>
         <a href="/customerCreate">New Customer</a>

@@ -58,4 +58,15 @@ public class JdbcCustomerRepository implements CustomerRepository {
         }
         return true;
     }
+
+    @Override
+    public boolean delete(String id) {
+        try {
+            jdbcTemplate.update("DELETE FROM CUSTOMERS WHERE Id = ?", id);
+        }
+        catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
 }

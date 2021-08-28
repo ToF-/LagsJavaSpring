@@ -12,4 +12,6 @@ public interface CustomerRepository {
     boolean create(Customer customer) throws SQLException;
 
     boolean update(Customer customer);
+
+    boolean delete(String id);
 }
