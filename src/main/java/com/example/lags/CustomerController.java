@@ -1,13 +1,11 @@
 package com.example.lags;
 
-import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
@@ -26,23 +24,23 @@ public class CustomerController {
         return "customers";
     }
 
-    @GetMapping("customerEdit")
+    @GetMapping("customerCreate")
     public String getCustomerEdit(Model model) {
         CustomerForm customerForm = new CustomerForm();
         model.addAttribute("customerForm",customerForm);
-        return "customerEdit";
+        return "customerCreate";
     }
-    @PostMapping("customerEdit")
+    @PostMapping("customerCreate")
     public String checkCustomerInfo(Model model, @Valid CustomerForm customerForm, BindingResult bindingResult) throws SQLException {
         if(bindingResult.hasErrors()) {
-            return "customerEdit";
+            return "customerCreate";
         }
         if(!customerRepository.create(customerForm.getCustomer())) {
             ObjectError error = new ObjectError("error","This customer already exists.");
             String message = String.format("The customer %s already exists.", customerForm.getId());
             model.addAttribute("errorMsg",message);
             bindingResult.addError(error);
-            return "customerEdit";
+            return "customerCreate";
         }
         return "redirect:/customers";
     }
