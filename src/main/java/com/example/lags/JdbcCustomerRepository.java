@@ -34,13 +34,24 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
     @Override
     public List<Customer> findAll() {
-        return jdbcTemplate.query("SELECT * FROM CUSTOMERS", customerRowMapper);
+        return jdbcTemplate.query("SELECT * FROM CUSTOMERS ORDER BY Id", customerRowMapper);
     }
 
     @Override
     public boolean create(Customer customer) {
         try {
             jdbcTemplate.update("INSERT INTO CUSTOMERS (Id, Name) VALUES (?, ?)", customer.getId(), customer.getName());
+        }
+        catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean update(Customer customer) {
+        try {
+            jdbcTemplate.update("UPDATE CUSTOMERS SET Name = ? WHERE Id = ?", customer.getName(), customer.getId());
         }
         catch (Exception e) {
             return false;

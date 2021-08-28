@@ -10,4 +10,6 @@ public interface CustomerRepository {
     List<Customer> findAll();
 
     boolean create(Customer customer) throws SQLException;
+
+    boolean update(Customer customer);
 }
