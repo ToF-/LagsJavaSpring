@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en" xmlns:th="http.thymeleaf.org">
+<link rel="stylesheet"  href="/css/lags.css">
 <head>
     <meta charset="UTF-8">
     <title>Customers</title>
@@ -18,7 +19,8 @@
     <tr th:each="customer : ${customerList}">
     <td class="align-middle" th:text="${customer.getId()}"></td>
     <td class="align-middle" th:text="${customer.getName()}"></td>
-    <td class="align-middle"><a th:href="@{customerUpdate/{id}(id=${customer.getId()})}">Edit</a></td>
+    <td class="align-middle"><a th:href="@{customerRetrieve/{id}(id=${customer.getId()})}">Retrieve</a></td>
+    <td class="align-middle"><a th:href="@{customerUpdate/{id}(id=${customer.getId()})}">Update</a></td>
     <td class="align-middle"><a th:href="@{customerDelete/{id}(id=${customer.getId()})}">Delete</a></td>
     </tr>
     <tr>

@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 public class CustomerForm {
     @NotNull
@@ -15,6 +16,13 @@ public class CustomerForm {
     @Size(min=2, max=80)
     private String name;
 
+    private List<Order> orders;
+
+    public CustomerForm(String id, String name, List<Order> orders) {
+        this.id = id;
+        this.name = name;
+        this.orders = orders;
+    }
     public void setId(String id) {
         this.id = id;
     }
@@ -31,7 +39,11 @@ public class CustomerForm {
         return this.name;
     }
 
-    public Customer getCustomer() {
-        return new Customer(getId(), getName());
+    public List<Order> getOrders() {
+        return this.orders;
     }
+    public Customer getCustomer() {
+        return new Customer(getId(), getName(), getOrders());
+    }
+
 }

@@ -1,13 +1,18 @@
 package com.example.lags;
 
+import java.util.List;
+
 public class Customer {
     private String id;
 
     private String name;
 
-    public Customer(String id, String name) {
+    private List<Order> orders;
+
+    public Customer(String id, String name, List<Order> orders) {
         this.id = id;
         this.name = name;
+        this.orders = orders;
     }
 
     public String toString() {
@@ -20,5 +25,9 @@ public class Customer {
 
     public String getName() {
         return this.name;
+    }
+
+    public List<Order> getOrders() {
+        return this.orders;
     }
 }

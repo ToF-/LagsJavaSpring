@@ -18,19 +18,32 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
     private RowMapper<Customer> customerRowMapper;
+    private RowMapper<Order> orderRowMapper;
 
     public JdbcCustomerRepository() {
         customerRowMapper = new RowMapper<Customer>() {
             public Customer mapRow(ResultSet rs, int rowNum) throws SQLException {
-                return new Customer(rs.getString("Id"), rs.getString("Name"));
-
+                return new Customer(rs.getString("Id"), rs.getString("Name"), null);
+            }
+        };
+        orderRowMapper = new RowMapper<Order>() {
+            @Override
+            public Order mapRow(ResultSet rs, int i) throws SQLException {
+                return new Order(rs.getString("Id"),rs.getDate("Start"),rs.getInt("Duration"), rs.getInt("Price") );
             }
         };
     }
     @Override
     public Optional<Customer> findById(String id) {
         List<Customer> result = jdbcTemplate.query("SELECT * FROM CUSTOMERS WHERE Id = ?", customerRowMapper, id);
-        return result.isEmpty() ? Optional.empty() : Optional.of(result.get(0));
+        if(!result.isEmpty()) {
+            String customerId = result.get(0).getId();
+            List<Order> orders = jdbcTemplate.query("SELECT Id,Start,Duration,Price FROM ORDERS WHERE CustomerId = ?", orderRowMapper, customerId);
+            Customer customer = new Customer(customerId, result.get(0).getName(), orders);
+            return Optional.of(customer);
+        }
+        else
+            return Optional.empty();
     }
     @Override
     public List<Customer> findAll() {

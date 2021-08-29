@@ -41,7 +41,7 @@ CREATE TABLE public.orders (
     customerid character varying(8),
     start date NOT NULL,
     duration integer NOT NULL,
-    price money NOT NULL
+    price numeric(10,2) NOT NULL
 );
 
 

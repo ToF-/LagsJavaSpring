@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
+<link rel="stylesheet"  href="/css/lags.css">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -15,11 +16,11 @@
     <table>
         <tr>
             <td>Id:</td>
-            <td th:text="*{id}">idvalue</td>
+            <td th:text="*{id}"></td>
         </tr>
         <tr>
             <td>Name:</td>
-            <td th:text="*{name}">namevale</td>
+            <td th:text="*{name}"></td>
         </tr>
         <tr>
             <td><button type="submit">Delete</button></td>

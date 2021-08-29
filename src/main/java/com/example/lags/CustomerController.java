@@ -28,7 +28,7 @@ public class CustomerController {
 
     @GetMapping("/customerCreate")
     public String getCustomerCreate(Model model) {
-        CustomerForm customerForm = new CustomerForm();
+        CustomerForm customerForm = new CustomerForm("","",null);
         model.addAttribute("customerForm",customerForm);
         return "customerCreate";
     }
@@ -50,7 +50,7 @@ public class CustomerController {
     public String getCustomerUpdate(@PathVariable("id") String id, Model model) {
         Optional<Customer> found = customerRepository.findById(id);
         if(found.isPresent()) {
-            CustomerForm customerForm = new CustomerForm();
+            CustomerForm customerForm = new CustomerForm("","",null);
             customerForm.setId(found.get().getId());
             customerForm.setName(found.get().getName());
             model.addAttribute("customerForm", customerForm);
@@ -72,7 +72,7 @@ public class CustomerController {
     public String getCustomerDelete(@PathVariable("id") String id, Model model) {
         Optional<Customer> found = customerRepository.findById(id);
         if(found.isPresent()) {
-            CustomerForm customerForm = new CustomerForm();
+            CustomerForm customerForm = new CustomerForm("","",null);
             customerForm.setId(found.get().getId());
             customerForm.setName(found.get().getName());
             model.addAttribute("customerForm", customerForm);
@@ -84,12 +84,26 @@ public class CustomerController {
     }
 
     @PostMapping("/customerDelete/{id}")
-    public String deleteCustomer(@PathVariable("id") String id, Model model) {
+    public String deleteCustomer(@PathVariable("id") String id, Model model, @Valid CustomerForm customerForm, BindingResult bindingResult) {
         if(!customerRepository.delete(id)) {
-            String message = String.format("The customer %s cannot be found.", id);
+            String message = String.format("The customer %s has orders and cannot be deleted.", id);
             model.addAttribute("errorMsg", message);
-            return "redirect:/customers";
+            return "customerDelete";
         }
         return "redirect:customers";
+    }
+    @GetMapping("/customerRetrieve/{id}")
+    public String retrieveCustomer(@PathVariable("id") String id, Model model) {
+        Optional<Customer> found = customerRepository.findById(id);
+        if(found.isPresent()) {
+            CustomerForm customerForm = new CustomerForm(found.get().getId(), found.get().getName(), found.get().getOrders());
+            customerForm.setId(found.get().getId());
+            customerForm.setName(found.get().getName());
+            model.addAttribute("customerForm", customerForm);
+            return "/customerRetrieve";
+        }
+        String message = String.format("The customer %s cannot be found.", id);
+        model.addAttribute("errorMsg", message);
+        return "redirect:/customers";
     }
 }
