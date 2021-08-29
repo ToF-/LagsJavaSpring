@@ -33,7 +33,7 @@ public class CustomerController {
         return "customerCreate";
     }
     @PostMapping("/customerCreate")
-    public String checkCustomerCreate(Model model, @Valid CustomerForm customerForm, BindingResult bindingResult) throws SQLException {
+    public String postCustomerCreate(Model model, @Valid CustomerForm customerForm, BindingResult bindingResult) throws SQLException {
         if(bindingResult.hasErrors()) {
             return "customerCreate";
         }
@@ -61,7 +61,7 @@ public class CustomerController {
         return "redirect:/customers";
     }
     @PostMapping("/customerUpdate/{id}")
-    public String checkCustomerUpdate(@PathVariable("id") String id, Model model, @Valid CustomerForm customerForm, BindingResult bindingResult) {
+    public String postCustomerUpdate(@PathVariable("id") String id, Model model, @Valid CustomerForm customerForm, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             return "/customerUpdate";
         }
@@ -84,7 +84,7 @@ public class CustomerController {
     }
 
     @PostMapping("/customerDelete/{id}")
-    public String deleteCustomer(@PathVariable("id") String id, Model model, @Valid CustomerForm customerForm, BindingResult bindingResult) {
+    public String postCustomerDelete(@PathVariable("id") String id, Model model, @Valid CustomerForm customerForm, BindingResult bindingResult) {
         if(!customerRepository.delete(id)) {
             String message = String.format("The customer %s has orders and cannot be deleted.", id);
             model.addAttribute("errorMsg", message);
@@ -93,7 +93,7 @@ public class CustomerController {
         return "redirect:customers";
     }
     @GetMapping("/customerRetrieve/{id}")
-    public String retrieveCustomer(@PathVariable("id") String id, Model model) {
+    public String getCustomerRetrieve(@PathVariable("id") String id, Model model) {
         Optional<Customer> found = customerRepository.findById(id);
         if(found.isPresent()) {
             CustomerForm customerForm = new CustomerForm(found.get().getId(), found.get().getName(), found.get().getOrders());
