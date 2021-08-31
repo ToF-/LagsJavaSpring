@@ -81,14 +81,14 @@ public class JdbcRepository implements Repository {
     }
 
     @Override
-    public boolean createOrder(String id, Order order) {
+    public String createOrder(String id, Order order) {
         try {
             jdbcTemplate.update("INSERT INTO ORDERS (Id, CustomerId, Start, Duration, Price) VALUES (?, ?, ?, ?, ?)",
                     id, order.getId(), Date.valueOf(order.getStart()), order.getDuration(), order.getPrice());
         }
         catch (Exception e) {
-            return false;
+            return String.format("problem with Customer %s new Order : %s", id, e.getMessage());
         }
-        return true;
+        return "";
     }
 }

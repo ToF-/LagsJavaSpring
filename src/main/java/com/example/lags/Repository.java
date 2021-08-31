@@ -15,5 +15,5 @@ public interface Repository {
 
     boolean deleteCustomer(String id);
 
-    boolean createOrder(String id, Order order);
+    String createOrder(String id, Order order);
 }

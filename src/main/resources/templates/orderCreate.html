@@ -7,7 +7,7 @@
     <title>Title</title>
 </head>
 <body>
-<form th:action="@{orderCreate}" th:object="${orderForm}" method="post">
+<form th:action="@{orderCreate/{id}(id=${orderForm.getCustomerId()})}" th:object="${orderForm}" method="post">
     <div th:if="${errorMsg}">
         <ul>
             <li th:text="${errorMsg}" />
@@ -21,7 +21,7 @@
         </tr>
         <tr>
             <td>Start:</td>
-            <td><input type="datetime-local" th:field="*{start}" /></td>
+            <td><input type="date" th:field="*{start}" /></td>
             <td th:if="${#fields.hasErrors('start')}" th:errors="*{start}">Start Error</td>
         </tr>
         <tr>

@@ -108,20 +108,21 @@ public class LagsController {
         return "redirect:/customers";
     }
     @GetMapping("/orderCreate/{id}")
-    public String getOrderCreate(@PathVariable("id") String id, Model model) {
-        OrderForm orderForm = new OrderForm("", LocalDate.now(), 0,0);
+    public String getOrderCreate(@PathVariable("id") String customerId, Model model) {
+        OrderForm orderForm = new OrderForm("", customerId, LocalDate.now(), 0,0);
         model.addAttribute("orderForm",orderForm);
         return "/orderCreate";
     }
-    @PostMapping("/orderCreate/{id}")
-    public String postOderCreate(@PathVariable("id") String id, @Valid OrderForm orderForm, BindingResult bindingResult, Model model) {
+    @PostMapping("/orderCreate/{customerId}")
+    public String postOderCreate(@PathVariable("customerId") String customerId, Model model, @Valid OrderForm orderForm, BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
             return "orderCreate";
         }
-        if(!repository.createOrder(id, orderForm.getOrder())) {
-            ObjectError error = new ObjectError("error","This order already exists.");
-            String message = String.format("The order %s already exists.", orderForm.getId());
+        String result = repository.createOrder(customerId, orderForm.getOrder());
+        if(!result.equals("")){
+            ObjectError error = new ObjectError("error", result);
+            String message = String.format(result, orderForm.getId());
             model.addAttribute("errorMsg",message);
             bindingResult.addError(error);
             return "/orderCreate";
