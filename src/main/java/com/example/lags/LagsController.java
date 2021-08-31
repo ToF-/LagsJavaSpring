@@ -11,17 +11,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
-public class CustomerController {
+public class LagsController {
     @Autowired
-    private CustomerRepository customerRepository;
+    private Repository repository;
 
     @GetMapping("/customers")
     public String getCustomers(Model model) {
-        List<Customer> customers = customerRepository.findAll();
+        List<Customer> customers = repository.findAllCustomers();
         model.addAttribute("customerList", customers);
         return "customers";
     }
@@ -37,7 +38,7 @@ public class CustomerController {
         if(bindingResult.hasErrors()) {
             return "customerCreate";
         }
-        if(!customerRepository.create(customerForm.getCustomer())) {
+        if(!repository.createCustomer(customerForm.getCustomer())) {
             ObjectError error = new ObjectError("error","This customer already exists.");
             String message = String.format("The customer %s already exists.", customerForm.getId());
             model.addAttribute("errorMsg",message);
@@ -48,7 +49,7 @@ public class CustomerController {
     }
     @GetMapping("/customerUpdate/{id}")
     public String getCustomerUpdate(@PathVariable("id") String id, Model model) {
-        Optional<Customer> found = customerRepository.findById(id);
+        Optional<Customer> found = repository.findCustomerById(id);
         if(found.isPresent()) {
             CustomerForm customerForm = new CustomerForm("","",null);
             customerForm.setId(found.get().getId());
@@ -65,12 +66,12 @@ public class CustomerController {
         if(bindingResult.hasErrors()) {
             return "/customerUpdate";
         }
-        customerRepository.update(customerForm.getCustomer());
+        repository.updateCustomer(customerForm.getCustomer());
         return "redirect:customers";
     }
     @GetMapping("/customerDelete/{id}")
     public String getCustomerDelete(@PathVariable("id") String id, Model model) {
-        Optional<Customer> found = customerRepository.findById(id);
+        Optional<Customer> found = repository.findCustomerById(id);
         if(found.isPresent()) {
             CustomerForm customerForm = new CustomerForm("","",null);
             customerForm.setId(found.get().getId());
@@ -85,7 +86,7 @@ public class CustomerController {
 
     @PostMapping("/customerDelete/{id}")
     public String postCustomerDelete(@PathVariable("id") String id, Model model, @Valid CustomerForm customerForm, BindingResult bindingResult) {
-        if(!customerRepository.delete(id)) {
+        if(!repository.deleteCustomer(id)) {
             String message = String.format("The customer %s has orders and cannot be deleted.", id);
             model.addAttribute("errorMsg", message);
             return "customerDelete";
@@ -94,7 +95,7 @@ public class CustomerController {
     }
     @GetMapping("/customerRetrieve/{id}")
     public String getCustomerRetrieve(@PathVariable("id") String id, Model model) {
-        Optional<Customer> found = customerRepository.findById(id);
+        Optional<Customer> found = repository.findCustomerById(id);
         if(found.isPresent()) {
             CustomerForm customerForm = new CustomerForm(found.get().getId(), found.get().getName(), found.get().getOrders());
             customerForm.setId(found.get().getId());
@@ -105,5 +106,26 @@ public class CustomerController {
         String message = String.format("The customer %s cannot be found.", id);
         model.addAttribute("errorMsg", message);
         return "redirect:/customers";
+    }
+    @GetMapping("/orderCreate/{id}")
+    public String getOrderCreate(@PathVariable("id") String id, Model model) {
+        OrderForm orderForm = new OrderForm("", LocalDate.now(), 0,0);
+        model.addAttribute("orderForm",orderForm);
+        return "/orderCreate";
+    }
+    @PostMapping("/orderCreate/{id}")
+    public String postOderCreate(@PathVariable("id") String id, @Valid OrderForm orderForm, BindingResult bindingResult, Model model) {
+
+        if(bindingResult.hasErrors()) {
+            return "orderCreate";
+        }
+        if(!repository.createOrder(id, orderForm.getOrder())) {
+            ObjectError error = new ObjectError("error","This order already exists.");
+            String message = String.format("The order %s already exists.", orderForm.getId());
+            model.addAttribute("errorMsg",message);
+            bindingResult.addError(error);
+            return "/orderCreate";
+        }
+        return "redirect:/customerUpdate";
     }
 }

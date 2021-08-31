@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<link rel="stylesheet"  href="/css/lags.css">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{orderCreate}" th:object="${orderForm}" method="post">
+    <div th:if="${errorMsg}">
+        <ul>
+            <li th:text="${errorMsg}" />
+        </ul>
+    </div>
+    <table>
+        <tr>
+            <td>Id:</td>
+            <td><input type="text" th:field="*{id}" /></td>
+            <td th:if="${#fields.hasErrors('id')}" th:errors="*{id}">Name Error</td>
+        </tr>
+        <tr>
+            <td>Start:</td>
+            <td><input type="datetime-local" th:field="*{start}" /></td>
+            <td th:if="${#fields.hasErrors('start')}" th:errors="*{start}">Start Error</td>
+        </tr>
+        <tr>
+            <td>Duration:</td>
+            <td><input type="number" th:field="*{duration}" /></td>
+            <td th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}">Duration Error</td>
+        </tr>
+        <tr>
+            <td>Price:</td>
+            <td><input type="number" th:field="*{price}" /></td>
+            <td th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Price Error</td>
+        </tr>
+        <tr>
+            <td><button type="submit">Submit</button></td>
+        </tr>
+    </table>
+
+</body>
+</html>

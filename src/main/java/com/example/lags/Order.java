@@ -1,14 +1,14 @@
 package com.example.lags;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 public class Order {
     private final String id;
-    private final Date start;
+    private final LocalDate start;
     private final Integer duration;
     private final Integer price;
 
-    public Order(String id, Date start, Integer duration, Integer price) {
+    public Order(String id, LocalDate start, Integer duration, Integer price) {
         this.id = id;
         this.start = start;
         this.duration = duration;
@@ -19,7 +19,7 @@ public class Order {
         return this.id;
     }
 
-    public Date getStart() {
+    public LocalDate getStart() {
         return this.start;
     }
 

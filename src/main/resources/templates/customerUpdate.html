@@ -26,6 +26,9 @@
         <tr>
             <td><button type="submit">Submit</button></td>
         </tr>
+        <tr>
+            <a th:href="@{/orderCreate/{id}(id=${customerForm.getId()})}">Add Order</a>
+        </tr>
     </table>
 
 </body>
