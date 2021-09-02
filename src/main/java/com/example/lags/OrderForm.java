@@ -49,4 +49,13 @@ public class OrderForm {
     public Order getOrder() {
         return new Order(this.getId(), this.getStart(), this.getDuration(), this.getPrice());
     }
+
+    public String toString() {
+        return String.format("OrderForm id=%s customerId=%s start=%s duration=%s price=%s",
+                this.getId(),
+                this.getCustomerId(),
+                this.getStart().toString(),
+                this.getDuration().toString(),
+                this.getPrice().toString());
+    }
 }

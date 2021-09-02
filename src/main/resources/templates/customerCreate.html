@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <link rel="stylesheet"  href="/css/lags.css">
 <head>
@@ -7,7 +6,7 @@
     <title>Title</title>
 </head>
 <body>
-<form th:action="@{customerCreate}" th:object="${customerForm}" method="post">
+<form th:action="@{/customerCreate}" th:object="${customerForm}" method="post">
     <div th:if="${errorMsg}">
         <ul>
             <li th:text="${errorMsg}" />
@@ -28,6 +27,6 @@
             <td><button type="submit">Submit</button></td>
         </tr>
     </table>
-
+</form>
 </body>
 </html>

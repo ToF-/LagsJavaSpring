@@ -38,7 +38,7 @@ ALTER TABLE public.customers OWNER TO tof_;
 
 CREATE TABLE public.orders (
     id character varying(8) NOT NULL UNIQUE,
-    customerid character varying(8),
+    customerid character varying(8) NOT NULL,
     start date NOT NULL,
     duration integer NOT NULL,
     price numeric(10,2) NOT NULL

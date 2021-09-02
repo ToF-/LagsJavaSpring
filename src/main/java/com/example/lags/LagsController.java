@@ -5,9 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.sql.SQLException;
@@ -51,7 +49,7 @@ public class LagsController {
     public String getCustomerUpdate(@PathVariable("id") String id, Model model) {
         Optional<Customer> found = repository.findCustomerById(id);
         if(found.isPresent()) {
-            CustomerForm customerForm = new CustomerForm("","",null);
+            CustomerForm customerForm = new CustomerForm(found.get().getId(), found.get().getName(), found.get().getOrders());
             customerForm.setId(found.get().getId());
             customerForm.setName(found.get().getName());
             model.addAttribute("customerForm", customerForm);
@@ -111,15 +109,16 @@ public class LagsController {
     public String getOrderCreate(@PathVariable("id") String customerId, Model model) {
         OrderForm orderForm = new OrderForm("", customerId, LocalDate.now(), 0,0);
         model.addAttribute("orderForm",orderForm);
+        System.out.println(orderForm.toString());
         return "/orderCreate";
     }
-    @PostMapping("/orderCreate/{customerId}")
-    public String postOderCreate(@PathVariable("customerId") String customerId, Model model, @Valid OrderForm orderForm, BindingResult bindingResult) {
-
+    @PostMapping("/orderCreate")
+    public String postOrderCreate(Model model, @Valid OrderForm orderForm, BindingResult bindingResult) {
+        System.out.println(orderForm.toString());
         if(bindingResult.hasErrors()) {
             return "orderCreate";
         }
-        String result = repository.createOrder(customerId, orderForm.getOrder());
+        String result = repository.createOrder(orderForm.getCustomerId(), orderForm.getOrder());
         if(!result.equals("")){
             ObjectError error = new ObjectError("error", result);
             String message = String.format(result, orderForm.getId());
@@ -127,6 +126,6 @@ public class LagsController {
             bindingResult.addError(error);
             return "/orderCreate";
         }
-        return "redirect:/customerUpdate";
+        return String.format("redirect:/customerUpdate/%s", orderForm.getCustomerId());
     }
 }
