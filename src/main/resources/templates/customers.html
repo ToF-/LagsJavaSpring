@@ -6,7 +6,7 @@
     <title>Customers</title>
 </head>
 <body>
-<table th:object="${customerList}">
+<table class="listing" th:object="${customerList}">
     <div th:if="${errorMsg}">
         <ul>
             <li th:text="${errorMsg}" />

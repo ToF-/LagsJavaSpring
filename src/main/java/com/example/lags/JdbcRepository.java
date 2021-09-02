@@ -35,7 +35,7 @@ public class JdbcRepository implements Repository {
         List<Customer> result = jdbcTemplate.query("SELECT * FROM CUSTOMERS WHERE Id = ?", customerRowMapper, id);
         if(!result.isEmpty()) {
             String customerId = result.get(0).getId();
-            List<Order> orders = jdbcTemplate.query("SELECT Id,Start,Duration,Price FROM ORDERS WHERE CustomerId = ?", orderRowMapper, customerId);
+            List<Order> orders = jdbcTemplate.query("SELECT Id,Start,Duration,Price FROM ORDERS WHERE CustomerId = ? ORDER BY Start", orderRowMapper, customerId);
             Customer customer = new Customer(customerId, result.get(0).getName(), orders);
             return Optional.of(customer);
         }

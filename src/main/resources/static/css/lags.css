@@ -1,3 +1,17 @@
 body {
-    font-family: Courier;
+    font-family: "Courier New";
+}
+.listing {
+    border: 1px solid #2884e7;
+}
+
+tr, td {
+    border: solid;
+}
+
+td {
+    border: 1px solid #c88da7;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }

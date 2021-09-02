@@ -34,7 +34,7 @@
         <h3>Orders</h3>
         <div th:if="${customerForm.getOrders().isEmpty()}">No Orders</div>
         <div th:if="${!customerForm.getOrders().isEmpty()}">
-            <table>
+            <table class="listing">
                 <tr>
                     <th>Id</th>
                     <th>Start</th>
