@@ -13,11 +13,13 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("ALL")
 @Controller
 public class LagsController {
     @Autowired
     private Repository repository;
 
+    @SuppressWarnings("SameReturnValue")
     @GetMapping("/customers")
     public String getCustomers(Model model) {
         List<Customer> customers = repository.findAllCustomers();

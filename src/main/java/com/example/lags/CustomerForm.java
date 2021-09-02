@@ -16,7 +16,7 @@ public class CustomerForm {
     @Size(min=2, max=80)
     private String name;
 
-    private List<Order> orders;
+    private final List<Order> orders;
 
     public CustomerForm(String id, String name, List<Order> orders) {
         this.id = id;

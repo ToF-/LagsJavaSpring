@@ -14,21 +14,12 @@ import java.util.Optional;
 public class JdbcRepository implements Repository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    private RowMapper<Customer> customerRowMapper;
-    private RowMapper<Order> orderRowMapper;
+    private final RowMapper<Customer> customerRowMapper;
+    private final RowMapper<Order> orderRowMapper;
 
     public JdbcRepository() {
-        customerRowMapper = new RowMapper<Customer>() {
-            public Customer mapRow(ResultSet rs, int rowNum) throws SQLException {
-                return new Customer(rs.getString("Id"), rs.getString("Name"), null);
-            }
-        };
-        orderRowMapper = new RowMapper<Order>() {
-            @Override
-            public Order mapRow(ResultSet rs, int i) throws SQLException {
-                return new Order(rs.getString("Id"),rs.getDate("Start").toLocalDate(),rs.getInt("Duration"), rs.getInt("Price") );
-            }
-        };
+        customerRowMapper = (rs, rowNum) -> new Customer(rs.getString("Id"), rs.getString("Name"), null);
+        orderRowMapper = (rs, i) -> new Order(rs.getString("Id"),rs.getDate("Start").toLocalDate(),rs.getInt("Duration"), rs.getInt("Price") );
     }
     @Override
     public Optional<Customer> findCustomerById(String id) {

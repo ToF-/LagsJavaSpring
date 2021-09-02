@@ -3,11 +3,11 @@ package com.example.lags;
 import java.util.List;
 
 public class Customer {
-    private String id;
+    private final String id;
 
-    private String name;
+    private final String name;
 
-    private List<Order> orders;
+    private final List<Order> orders;
 
     public Customer(String id, String name, List<Order> orders) {
         this.id = id;
