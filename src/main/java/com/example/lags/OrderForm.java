@@ -47,7 +47,7 @@ public class OrderForm {
     public Integer getPrice() { return this.price; }
 
     public Order getOrder() {
-        return new Order(this.getId(), this.getStart(), this.getDuration(), this.getPrice());
+        return new Order(this.getId(), this.getCustomerId(), this.getStart(), this.getDuration(), this.getPrice());
     }
 
     public String toString() {

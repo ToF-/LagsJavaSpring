@@ -20,14 +20,14 @@ public class JdbcRepository implements Repository {
 
     public JdbcRepository() {
         customerRowMapper = (rs, rowNum) -> new Customer(rs.getString("Id"), rs.getString("Name"), null);
-        orderRowMapper = (rs, i) -> new Order(rs.getString("Id"),rs.getDate("Start").toLocalDate(),rs.getInt("Duration"), rs.getInt("Price") );
+        orderRowMapper = (rs, i) -> new Order(rs.getString("Id"),rs.getString("CustomerId"), rs.getDate("Start").toLocalDate(),rs.getInt("Duration"), rs.getInt("Price") );
     }
     @Override
     public Optional<Customer> findCustomerById(String id) {
         List<Customer> result = jdbcTemplate.query("SELECT * FROM CUSTOMERS WHERE Id = ?", customerRowMapper, id);
         if(!result.isEmpty()) {
             String customerId = result.get(0).getId();
-            List<Order> orders = jdbcTemplate.query("SELECT Id,Start,Duration,Price FROM ORDERS WHERE CustomerId = ? ORDER BY Start", orderRowMapper, customerId);
+            List<Order> orders = jdbcTemplate.query("SELECT Id,CustomerId,Start,Duration,Price FROM ORDERS WHERE CustomerId = ? ORDER BY Start", orderRowMapper, customerId);
             Customer customer = new Customer(customerId, result.get(0).getName(), orders);
             return Optional.of(customer);
         }

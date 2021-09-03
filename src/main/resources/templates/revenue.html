@@ -42,12 +42,14 @@
         <table class="listing">
             <tr>
                 <th>Id</th>
+                <th>Customer Id</th>
                 <th>Start</th>
                 <th>Duration</th>
                 <th>Price</th>
             </tr>
             <tr th:each="order : ${revenueForm.getOrders()}">
                 <td class="align-middle" th:text="${order.getId()}"></td>
+                <td class="align-middle" th:text="${order.getCustomerId()}"></td>
                 <td class="align-middle" th:text="${order.getStart()}"></td>
                 <td class="align-middle" th:text="${order.getDuration()}"></td>
                 <td class="align-middle" th:text="${order.getPrice()}"></td>

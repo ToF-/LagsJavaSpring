@@ -33,6 +33,7 @@ public class RevenueForm {
     }
 
     public void computeRevenue() {
-        this.revenue = 0;
+        RevenueCalculator revenueCalculator = new RevenueCalculator();
+        this.revenue = revenueCalculator.computeRevenue(orders);
     }
 }
