@@ -15,11 +15,10 @@ import java.util.Optional;
 
 @SuppressWarnings("ALL")
 @Controller
-public class LagsController {
+public class CustomerController {
     @Autowired
     private Repository repository;
 
-    @SuppressWarnings("SameReturnValue")
     @GetMapping("/customers")
     public String getCustomers(Model model) {
         List<Customer> customers = repository.findAllCustomers();
@@ -107,27 +106,6 @@ public class LagsController {
         model.addAttribute("errorMsg", message);
         return "redirect:/customers";
     }
-    @GetMapping("/orderCreate/{id}")
-    public String getOrderCreate(@PathVariable("id") String customerId, Model model) {
-        OrderForm orderForm = new OrderForm("", customerId, LocalDate.now(), 0,0);
-        model.addAttribute("orderForm",orderForm);
-        System.out.println(orderForm.toString());
-        return "/orderCreate";
-    }
-    @PostMapping("/orderCreate")
-    public String postOrderCreate(Model model, @Valid OrderForm orderForm, BindingResult bindingResult) {
-        System.out.println(orderForm.toString());
-        if(bindingResult.hasErrors()) {
-            return "orderCreate";
-        }
-        String result = repository.createOrder(orderForm.getCustomerId(), orderForm.getOrder());
-        if(!result.equals("")){
-            ObjectError error = new ObjectError("error", result);
-            String message = String.format(result, orderForm.getId());
-            model.addAttribute("errorMsg",message);
-            bindingResult.addError(error);
-            return "/orderCreate";
-        }
-        return String.format("redirect:/customerUpdate/%s", orderForm.getCustomerId());
-    }
+
+
 }

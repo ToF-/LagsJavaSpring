@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en" xmlns:th="http.thymeleaf.org">
+<link rel="stylesheet"  href="/css/lags.css">
+<head>
+    <meta charset="UTF-8">
+    <title>Customers</title>
+</head>
+<body th:object="${revenueForm}">
+<article>
+    <h3>Period</h3>
+    <form th:action="@{/revenue}" th:object="${revenueForm}" method="post">
+        <div th:if="${errorMsg}">
+            <ul>
+                <li th:text="${errorMsg}"></li>
+            </ul>
+        </div>
+        <table>
+            <tr>
+                <td>Start:</td>
+                <td><label>
+                    <input type="date" th:field="*{start}" />
+                </label></td>
+                <td th:if="${#fields.hasErrors('start')}" th:errors="*{start}">Start Error</td>
+            </tr>
+            <tr>
+                <td>End:</td>
+                <td><label>
+                    <input type="date" th:field="*{end}" />
+                </label></td>
+                <td th:if="${#fields.hasErrors('end')}" th:errors="*{end}">End Error</td>
+            </tr>
+            <tr>
+                <td><button type="submit">Submit</button></td>
+            </tr>
+        </table>
+    </form>
+</article>
+<article>
+   <h3>Orders</h3>
+    <div th:if="${revenueForm.getOrders().isEmpty()}">No Orders</div>
+    <div th:if="${!revenueForm.getOrders().isEmpty()}">
+        <table class="listing">
+            <tr>
+                <th>Id</th>
+                <th>Start</th>
+                <th>Duration</th>
+                <th>Price</th>
+            </tr>
+            <tr th:each="order : ${revenueForm.getOrders()}">
+                <td class="align-middle" th:text="${order.getId()}"></td>
+                <td class="align-middle" th:text="${order.getStart()}"></td>
+                <td class="align-middle" th:text="${order.getDuration()}"></td>
+                <td class="align-middle" th:text="${order.getPrice()}"></td>
+            </tr>
+        </table>
+    </div>
+    <tr>
+        <td>Revenue:</td>
+        <td th:text="${revenueForm.getRevenue()}"></td>
+    </tr>
+</article>
+</body>
+</html>

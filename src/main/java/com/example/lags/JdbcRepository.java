@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -81,5 +82,14 @@ public class JdbcRepository implements Repository {
             return String.format("problem with Customer %s new Order : %s", id, e.getMessage());
         }
         return "";
+    }
+
+    @Override
+    public List<Order> findOrders(LocalDate start, LocalDate end) {
+        List<Order> result = jdbcTemplate.query("SELECT Id, CustomerId, Start, Duration, Price FROM ORDERS WHERE Start >= ? AND (Start + interval '1' day * duration) <= ? ORDER BY Start",
+                orderRowMapper,
+                Date.valueOf(start),
+                Date.valueOf(end));
+        return result;
     }
 }

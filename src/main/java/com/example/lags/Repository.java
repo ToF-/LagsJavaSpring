@@ -1,6 +1,7 @@
 package com.example.lags;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,4 +17,6 @@ public interface Repository {
     boolean deleteCustomer(String id);
 
     String createOrder(String id, Order order);
+
+    List<Order> findOrders(LocalDate start, LocalDate end);
 }
