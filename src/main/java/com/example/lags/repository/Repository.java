@@ -1,6 +1,8 @@
-package com.example.lags;
+package com.example.lags.repository;
 
-import java.sql.SQLException;
+import com.example.lags.model.Customer;
+import com.example.lags.model.Order;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;

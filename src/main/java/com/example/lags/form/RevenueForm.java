@@ -1,6 +1,10 @@
-package com.example.lags;
+package com.example.lags.form;
+
+import com.example.lags.model.Order;
+import com.example.lags.model.RevenueCalculator;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RevenueForm {
@@ -19,7 +23,17 @@ public class RevenueForm {
     public LocalDate getStart() { return this.start; }
     public LocalDate getEnd() { return this.end; }
 
-    public List<Order> getOrders() { return this.orders; }
+    public List<OrderForm> getOrderForms() {
+        List<OrderForm> result = new ArrayList<>();
+        for(Order order : this.orders) {
+            result.add(new OrderForm(order.getId(),
+                    order.getCustomerId(),
+                    LocalDate.ofYearDay(order.getStart()/1000, order.getStart() % 1000),
+                    order.getDuration(),
+                    order.getPrice()));
+        }
+        return result;
+    }
     public Integer getRevenue() {
         return revenue;
     }

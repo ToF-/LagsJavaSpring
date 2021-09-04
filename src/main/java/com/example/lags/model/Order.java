@@ -1,15 +1,13 @@
-package com.example.lags;
-
-import java.time.LocalDate;
+package com.example.lags.model;
 
 public class Order {
     private final String id;
     private final String customerId;
-    private final LocalDate start;
+    private final Integer start;
     private final Integer duration;
     private final Integer price;
 
-    public Order(String id, String customerId, LocalDate start, Integer duration, Integer price) {
+    public Order(String id, String customerId, Integer start, Integer duration, Integer price) {
         this.id = id;
         this.customerId = customerId;
         this.start = start;
@@ -23,7 +21,7 @@ public class Order {
 
     public String getCustomerId() { return this.customerId; }
 
-    public LocalDate getStart() {
+    public Integer getStart() {
         return this.start;
     }
 

@@ -1,4 +1,4 @@
-package com.example.lags;
+package com.example.lags.model;
 
 import java.util.List;
 

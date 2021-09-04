@@ -1,5 +1,7 @@
-package com.example.lags;
+package com.example.lags.controller;
 
+import com.example.lags.form.OrderForm;
+import com.example.lags.repository.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

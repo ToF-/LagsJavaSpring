@@ -38,11 +38,11 @@
                     <th>Duration</th>
                     <th>Price</th>
                 </tr>
-                <tr th:each="order : ${customerForm.getOrders()}">
-                    <td class="align-middle" th:text="${order.getId()}"></td>
-                    <td class="align-middle" th:text="${order.getStart()}"></td>
-                    <td class="align-middle" th:text="${order.getDuration()}"></td>
-                    <td class="align-middle" th:text="${order.getPrice()}"></td>
+                <tr th:each="orderForm : ${customerForm.getOrderForms()}">
+                    <td class="align-middle" th:text="${orderForm.getId()}"></td>
+                    <td class="align-middle" th:text="${orderForm.getStart()}"></td>
+                    <td class="align-middle" th:text="${orderForm.getDuration()}"></td>
+                    <td class="align-middle" th:text="${orderForm.getPrice()}"></td>
                 </tr>
             </table>
         </div>

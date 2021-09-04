@@ -1,4 +1,6 @@
-package com.example.lags;
+package com.example.lags.model;
+
+import com.example.lags.model.Order;
 
 import java.util.*;
 
@@ -13,7 +15,7 @@ public class RevenueCalculator {
         List<Order> compat = new ArrayList<Order>();
         for (Iterator<Order> iter = orders.listIterator(); iter.hasNext(); ) {
             Order o = iter.next();
-            if (order.getDuration() > 0 && ! (o.getStart().isBefore(order.getStart().plusDays(order.getDuration())))) {
+            if (order.getDuration() > 0 && ! (o.getStart() <= order.getStart() + order.getDuration())) {
                 compat.add(o);
             }
         }
@@ -33,7 +35,7 @@ public class RevenueCalculator {
         Collections.sort(orders, new Comparator<Order>() {
             @Override
             public int compare(Order o1, Order o2) {
-                return o1.getStart().isBefore(o2.getStart()) ? -1 : +1 ;
+                return o1.getStart() - o2.getStart();
             }
         });
         return revenue(allOrders);

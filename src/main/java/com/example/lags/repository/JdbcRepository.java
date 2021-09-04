@@ -1,12 +1,12 @@
-package com.example.lags;
+package com.example.lags.repository;
 
+import com.example.lags.model.Customer;
+import com.example.lags.model.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +20,7 @@ public class JdbcRepository implements Repository {
 
     public JdbcRepository() {
         customerRowMapper = (rs, rowNum) -> new Customer(rs.getString("Id"), rs.getString("Name"), null);
-        orderRowMapper = (rs, i) -> new Order(rs.getString("Id"),rs.getString("CustomerId"), rs.getDate("Start").toLocalDate(),rs.getInt("Duration"), rs.getInt("Price") );
+        orderRowMapper = (rs, i) -> new Order(rs.getString("Id"),rs.getString("CustomerId"), rs.getInt("Start") ,rs.getInt("Duration"), rs.getInt("Price") );
     }
     @Override
     public Optional<Customer> findCustomerById(String id) {
@@ -76,7 +76,7 @@ public class JdbcRepository implements Repository {
     public String createOrder(String id, Order order) {
         try {
             jdbcTemplate.update("INSERT INTO ORDERS (Id, CustomerId, Start, Duration, Price) VALUES (?, ?, ?, ?, ?)",
-                    order.getId(), id, Date.valueOf(order.getStart()), order.getDuration(), order.getPrice());
+                    order.getId(), id, order.getStart(), order.getDuration(), order.getPrice());
         }
         catch (Exception e) {
             return String.format("problem with Customer %s new Order : %s", id, e.getMessage());
@@ -86,10 +86,12 @@ public class JdbcRepository implements Repository {
 
     @Override
     public List<Order> findOrders(LocalDate start, LocalDate end) {
-        List<Order> result = jdbcTemplate.query("SELECT Id, CustomerId, Start, Duration, Price FROM ORDERS WHERE Start >= ? AND (Start + interval '1' day * duration) <= ? ORDER BY Start",
+        Integer ydStart = start.getYear() * 1000 + start.getDayOfYear();
+        Integer ydEnd = end.getYear() * 1000 + end.getDayOfYear();
+        List<Order> result = jdbcTemplate.query("SELECT Id, CustomerId, Start, Duration, Price FROM ORDERS WHERE Start >= ? AND (Start + duration) <= ? ORDER BY Start",
                 orderRowMapper,
-                Date.valueOf(start),
-                Date.valueOf(end));
+                ydStart,
+                ydEnd);
         return result;
     }
 }

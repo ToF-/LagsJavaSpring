@@ -1,13 +1,13 @@
-package com.example.lags;
+package com.example.lags.form;
 
 
+import com.example.lags.model.Order;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.List;
 
 public class OrderForm {
     private final String customerId;
@@ -26,7 +26,7 @@ public class OrderForm {
     @NotNull
     private Integer price;
 
-    public OrderForm(String id, String customerId, LocalDate start,  Integer duration, Integer price) {
+    public OrderForm(String id, String customerId, LocalDate start, Integer duration, Integer price) {
         this.id = id;
         this.customerId = customerId;
         this.start = start;
@@ -47,7 +47,7 @@ public class OrderForm {
     public Integer getPrice() { return this.price; }
 
     public Order getOrder() {
-        return new Order(this.getId(), this.getCustomerId(), this.getStart(), this.getDuration(), this.getPrice());
+        return new Order(this.getId(), this.getCustomerId(), this.getStart().getDayOfYear() + this.getStart().getYear()*1000, this.getDuration(), this.getPrice());
     }
 
     public String toString() {
