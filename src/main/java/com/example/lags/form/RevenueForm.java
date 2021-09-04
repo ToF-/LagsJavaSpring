@@ -26,6 +26,7 @@ public class RevenueForm {
     public List<OrderForm> getOrderForms() {
         List<OrderForm> result = new ArrayList<>();
         for(Order order : this.orders) {
+            System.out.println(order.toString());
             result.add(new OrderForm(order.getId(),
                     order.getCustomerId(),
                     LocalDate.ofYearDay(order.getStart()/1000, order.getStart() % 1000),
@@ -48,6 +49,6 @@ public class RevenueForm {
 
     public void computeRevenue() {
         RevenueCalculator revenueCalculator = new RevenueCalculator();
-        this.revenue = revenueCalculator.computeRevenue(orders);
+        this.revenue = revenueCalculator.fastComputeRevenue(orders);
     }
 }

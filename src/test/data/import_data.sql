@@ -1,0 +1,3 @@
+-- psql lags
+-- \copy Customers FROM './customers.csv' WITH (FORMAT CSV);
+-- \copy Orders FROM './oreders.csv' WITH (FORMAT CSV);
