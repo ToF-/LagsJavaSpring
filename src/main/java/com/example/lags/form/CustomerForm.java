@@ -25,12 +25,14 @@ public class CustomerForm {
         this.id = id;
         this.name = name;
         this.orderForms = new ArrayList<>();
-        for(Order order : orders) {
-            this.orderForms.add(new OrderForm(order.getId(),
-                    order.getCustomerId(),
-                    LocalDate.ofYearDay(order.getStart() / 1000, order.getStart() % 1000),
-                    order.getDuration(),
-                    order.getPrice()));
+        if(orders != null) {
+            for (Order order : orders) {
+                this.orderForms.add(new OrderForm(order.getId(),
+                        order.getCustomerId(),
+                        LocalDate.ofYearDay(order.getStart() / 1000, order.getStart() % 1000),
+                        order.getDuration(),
+                        order.getPrice()));
+            }
         }
     }
     public void setId(String id) {
