@@ -3,8 +3,10 @@ package com.example.lags.form;
 
 import com.example.lags.model.Order;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
@@ -20,7 +22,7 @@ public class OrderForm {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate start;
 
-    @NotNull
+    @Min(1)
     private Integer duration;
 
     @NotNull
@@ -33,6 +35,15 @@ public class OrderForm {
         this.duration = duration;
         this.price = price;
     }
+
+    public OrderForm(Order order) {
+        this.id = order.getId();
+        this.customerId = order.getCustomerId();
+        this.start = LocalDate.ofYearDay(order.getStart()/1000, order.getStart()%1000);
+        this.duration = order.getDuration();
+        this.price = order.getPrice();
+    }
+
     public void setId(String id) {
         this.id = id;
     }

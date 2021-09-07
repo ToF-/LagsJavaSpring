@@ -94,4 +94,14 @@ public class JdbcRepository implements Repository {
                 ydEnd);
         return result;
     }
+
+    @Override
+    public Optional<Order> findOrderById(String orderId) {
+        List<Order> result = jdbcTemplate.query("SELECT * FROM ORDERS WHERE Id = ?", orderRowMapper, orderId);
+        if(!result.isEmpty()) {
+            return Optional.of(result.get(0));
+        }
+        else
+            return Optional.empty();
+    }
 }

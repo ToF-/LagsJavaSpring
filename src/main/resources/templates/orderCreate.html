@@ -50,6 +50,7 @@
         </tr>
         <tr>
             <td><button type="submit">Submit</button></td>
+            <td><a th:href="@{'/customerUpdate/' + ${orderForm.getCustomerId()}}">Cancel</a></td>
         </tr>
     </table>
 </form>
