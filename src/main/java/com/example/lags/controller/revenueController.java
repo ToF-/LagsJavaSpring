@@ -25,7 +25,7 @@ public class revenueController {
     @GetMapping("/revenue")
     public String getRevenue(Model model) {
         List <Order> orders = new ArrayList<>();
-        RevenueForm revenueForm = new RevenueForm(LocalDate.now(), LocalDate.now().plusMonths(1), orders);
+        RevenueForm revenueForm = new RevenueForm(LocalDate.now().minusMonths(1), LocalDate.now().plusMonths(1), orders);
         model.addAttribute("revenueForm", revenueForm);
         return "/revenue";
     }
