@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<link rel="stylesheet"  href="/css/lags.css">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/orderUpdate}" th:object="${orderForm}" method="post">
+    <div th:if="${errorMsg}">
+        <ul>
+            <li th:text="${errorMsg}"></li>
+        </ul>
+    </div>
+    <table>
+        <tr>
+            <td>Customer Id:</td>
+            <td><label>
+                <input type="text" readonly th:field="*{customerId}" />
+            </label></td>
+            <td th:if="${#fields.hasErrors('customerId')}" th:errors="*{customerId}">CustomerId Error</td>
+        </tr>
+        <tr>
+            <td>Id:</td>
+            <td><label>
+                <input type="text" readonly th:field="*{id}" />
+            </label></td>
+            <td th:if="${#fields.hasErrors('id')}" th:errors="*{id}">Name Error</td>
+        </tr>
+        <tr>
+            <td>Start:</td>
+            <td><label>
+                <input type="date" th:field="*{start}" />
+            </label></td>
+            <td th:if="${#fields.hasErrors('start')}" th:errors="*{start}">Start Error</td>
+        </tr>
+        <tr>
+            <td>Duration:</td>
+            <td><label>
+                <input type="number" th:field="*{duration}" />
+            </label></td>
+            <td th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}">Duration Error</td>
+        </tr>
+        <tr>
+            <td>Price:</td>
+            <td><label>
+                <input type="number" th:field="*{price}" />
+            </label></td>
+            <td th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Price Error</td>
+        </tr>
+        <tr>
+            <td><button type="submit">Submit</button></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

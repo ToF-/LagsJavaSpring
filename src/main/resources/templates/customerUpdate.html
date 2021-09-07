@@ -50,6 +50,8 @@
                     <td class="align-middle" th:text="${order.getStart()}"></td>
                     <td class="align-middle" th:text="${order.getDuration()}"></td>
                     <td class="align-middle" th:text="${order.getPrice()}"></td>
+                    <td class="align-middle"><a th:href="@{/orderUpdate/{id}(id=${order.getId()})}">Update</a></td>
+                    <td class="align-middle"><a th:href="@{/orderDelete/{id}(id=${order.getId()})}">Delete</a></td>
                 </tr>
             </table>
         </div>
