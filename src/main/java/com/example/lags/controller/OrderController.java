@@ -33,7 +33,7 @@ public class OrderController {
     public String postOrderCreate(Model model, @Valid OrderForm orderForm, BindingResult bindingResult) {
         System.out.println(orderForm.toString());
         if(bindingResult.hasErrors()) {
-            return "orderCreate";
+            return "/orderCreate";
         }
         String result = repository.createOrder(orderForm.getCustomerId(), orderForm.getOrder());
         if(!result.equals("")){
@@ -50,14 +50,21 @@ public class OrderController {
         Optional<Order> found = repository.findOrderById(orderId);
         if(found.isPresent()) {
             Order order = found.get();
-            OrderForm orderForm = new OrderForm(order);
+            OrderForm orderForm = new OrderForm(order.getId(), order.getCustomerId(), LocalDate.ofYearDay(order.getStart()/1000, order.getStart()%1000),order.getDuration(), order.getPrice());
             model.addAttribute("orderForm", orderForm);
             return "/orderUpdate";
         }
         return String.format("redirect:/customers"); // should be an error page
     }
-    @PostMapping("/orderUpdate/{id}")
-    public String postOrderUpdate(@PathVariable("id") String orderId, Model model, @Valid OrderForm orderForm, BindingResult bindingResult) {
+    @PostMapping("/orderUpdate")
+    public String postOrderUpdate(Model model, @Valid OrderForm orderForm, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             return "/orderUpdate";
         }
+        if (repository.updateOrder(orderForm.getOrder())) {
+            return String.format("redirect:/customerUpdate/%s", orderForm.getCustomerId());
+        } else {
+            return "/orderUpdate";
+        }
+    }
 }

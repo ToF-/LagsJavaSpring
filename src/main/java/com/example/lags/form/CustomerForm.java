@@ -27,11 +27,7 @@ public class CustomerForm {
         this.orderForms = new ArrayList<>();
         if(orders != null) {
             for (Order order : orders) {
-                this.orderForms.add(new OrderForm(order.getId(),
-                        order.getCustomerId(),
-                        LocalDate.ofYearDay(order.getStart() / 1000, order.getStart() % 1000),
-                        order.getDuration(),
-                        order.getPrice()));
+                this.orderForms.add(new OrderForm(order.getId(), order.getCustomerId(), LocalDate.ofYearDay(order.getStart()/1000, order.getStart()%1000), order.getDuration(), order.getPrice()));
             }
         }
     }
