@@ -28,5 +28,4 @@ public interface Repository {
 
     boolean deleteOrder(String id);
 
-    boolean updateOrder(Order order);
 }

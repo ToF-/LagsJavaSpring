@@ -50,7 +50,6 @@ public class OrderController {
         Optional<Order> found = repository.findOrderById(orderId);
         if(found.isPresent()) {
             Order order = found.get();
-            OrderForm orderForm = new OrderForm(order.getId(), order.getCustomerId(), LocalDate.ofYearDay(order.getStart()/1000, order.getStart()%1000),order.getDuration(), order.getPrice());
             OrderForm orderForm = new OrderForm(order.getId(),
                     order.getCustomerId(),
                     LocalDate.ofYearDay(order.getStart()/1000,order.getStart()%1000),
@@ -61,24 +60,20 @@ public class OrderController {
         }
         return String.format("redirect:/customers"); // should be an error page
     }
+
     @PostMapping("/orderUpdate")
     public String postOrderUpdate(Model model, @Valid OrderForm orderForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "/orderUpdate";
         }
-        if (repository.updateOrder(orderForm.getOrder())) {
-            return String.format("redirect:/customerUpdate/%s", orderForm.getCustomerId());
-        } else {
-    @PostMapping("/orderUpdate")
-    public String postOrderUpdate(Model model, @Valid OrderForm orderForm, BindingResult bindingResult) {
         if(repository.updateOrder(orderForm.getOrder())) {
             System.out.println("update done");
             System.out.println(String.format("redirect:/customerUpdate/%s", orderForm.getCustomerId()));
             return String.format("redirect:/customerUpdate/%s", orderForm.getCustomerId());
         }
-            return "/orderUpdate";
-        }
+        return "/orderUpdate";
     }
+
     @GetMapping("/orderDelete/{id}")
     public String getOrderDelete(@PathVariable("id") String orderId, Model model) {
         Optional<Order> found = repository.findOrderById(orderId);
