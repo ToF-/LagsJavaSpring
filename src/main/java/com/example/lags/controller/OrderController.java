@@ -1,6 +1,5 @@
 package com.example.lags.controller;
 
-import com.example.lags.form.CustomerForm;
 import com.example.lags.form.OrderForm;
 import com.example.lags.model.Order;
 import com.example.lags.repository.Repository;
@@ -50,11 +49,7 @@ public class OrderController {
         Optional<Order> found = repository.findOrderById(orderId);
         if(found.isPresent()) {
             Order order = found.get();
-            OrderForm orderForm = new OrderForm(order.getId(),
-                    order.getCustomerId(),
-                    LocalDate.ofYearDay(order.getStart()/1000,order.getStart()%1000),
-                    order.getDuration(),
-                    order.getPrice());
+            OrderForm orderForm = newOrderForm(order);
             model.addAttribute("orderForm", orderForm);
             return "/orderUpdate";
         }
@@ -79,16 +74,21 @@ public class OrderController {
         Optional<Order> found = repository.findOrderById(orderId);
         if(found.isPresent()) {
             Order order = found.get();
-            OrderForm orderForm = new OrderForm(order.getId(),
-                    order.getCustomerId(),
-                    LocalDate.ofYearDay(order.getStart()/1000,order.getStart()%1000),
-                    order.getDuration(),
-                    order.getPrice());
+            OrderForm orderForm = newOrderForm(order);
             model.addAttribute("orderForm", orderForm);
             return "/orderDelete";
         }
         return String.format("redirect:/customers"); // should be an error page
     }
+
+    private OrderForm newOrderForm(Order order) {
+        return new OrderForm(order.getId(),
+                order.getCustomerId(),
+                LocalDate.ofYearDay(order.getStart() / 1000, order.getStart() % 1000),
+                order.getDuration(),
+                order.getPrice());
+    }
+
     @PostMapping("/orderDelete/{id}")
     public String postOrderDelete(@PathVariable("id") String orderId, Model model, @Valid OrderForm orderForm, BindingResult bindingResult) {
         if(repository.deleteOrder(orderForm.getId())) {
