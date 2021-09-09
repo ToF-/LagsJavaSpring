@@ -85,6 +85,17 @@ public class JdbcRepository implements Repository {
     }
 
     @Override
+    public boolean updateOrder(Order order) {
+        try {
+            jdbcTemplate.update("UPDATE ORDERS SET Start = ?, Duration = ?, Price = ? WHERE Id = ?", order.getStart(), order.getDuration(), order.getPrice(), order.getId());
+        }
+        catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     public List<Order> findOrders(LocalDate start, LocalDate end) {
         Integer ydStart = start.getYear() * 1000 + start.getDayOfYear();
         Integer ydEnd = end.getYear() * 1000 + end.getDayOfYear();

@@ -33,7 +33,7 @@ public class OrderController {
     public String postOrderCreate(Model model, @Valid OrderForm orderForm, BindingResult bindingResult) {
         System.out.println(orderForm.toString());
         if(bindingResult.hasErrors()) {
-            return "orderCreate";
+            return "/orderCreate";
         }
         String result = repository.createOrder(orderForm.getCustomerId(), orderForm.getOrder());
         if(!result.equals("")){
@@ -50,6 +50,7 @@ public class OrderController {
         Optional<Order> found = repository.findOrderById(orderId);
         if(found.isPresent()) {
             Order order = found.get();
+            OrderForm orderForm = new OrderForm(order.getId(), order.getCustomerId(), LocalDate.ofYearDay(order.getStart()/1000, order.getStart()%1000),order.getDuration(), order.getPrice());
             OrderForm orderForm = new OrderForm(order.getId(),
                     order.getCustomerId(),
                     LocalDate.ofYearDay(order.getStart()/1000,order.getStart()%1000),
@@ -62,6 +63,14 @@ public class OrderController {
     }
     @PostMapping("/orderUpdate")
     public String postOrderUpdate(Model model, @Valid OrderForm orderForm, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "/orderUpdate";
+        }
+        if (repository.updateOrder(orderForm.getOrder())) {
+            return String.format("redirect:/customerUpdate/%s", orderForm.getCustomerId());
+        } else {
+    @PostMapping("/orderUpdate")
+    public String postOrderUpdate(Model model, @Valid OrderForm orderForm, BindingResult bindingResult) {
         if(repository.updateOrder(orderForm.getOrder())) {
             System.out.println("update done");
             System.out.println(String.format("redirect:/customerUpdate/%s", orderForm.getCustomerId()));
@@ -69,6 +78,7 @@ public class OrderController {
         }
             return "/orderUpdate";
         }
+    }
     @GetMapping("/orderDelete/{id}")
     public String getOrderDelete(@PathVariable("id") String orderId, Model model) {
         Optional<Order> found = repository.findOrderById(orderId);

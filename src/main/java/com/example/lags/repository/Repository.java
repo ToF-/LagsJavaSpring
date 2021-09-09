@@ -20,6 +20,8 @@ public interface Repository {
 
     String createOrder(String id, Order order);
 
+    boolean updateOrder(Order order);
+
     List<Order> findOrders(LocalDate start, LocalDate end);
 
     Optional<Order> findOrderById(String orderId);

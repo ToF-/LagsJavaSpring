@@ -3,6 +3,7 @@ package com.example.lags.form;
 
 import com.example.lags.model.Order;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -28,6 +29,7 @@ public class OrderForm {
     @NotNull
     private Integer price;
 
+    @Autowired
     public OrderForm(String id, String customerId, LocalDate start, Integer duration, Integer price) {
         this.id = id;
         this.customerId = customerId;

@@ -27,11 +27,7 @@ public class RevenueForm {
         List<OrderForm> result = new ArrayList<>();
         for(Order order : this.orders) {
             System.out.println(order.toString());
-            result.add(new OrderForm(order.getId(),
-                    order.getCustomerId(),
-                    LocalDate.ofYearDay(order.getStart()/1000, order.getStart() % 1000),
-                    order.getDuration(),
-                    order.getPrice()));
+            result.add(new OrderForm(order.getId(), order.getCustomerId(), LocalDate.ofYearDay(order.getStart()/1000,order.getStart()%1000), order.getDuration(), order.getPrice()));
         }
         return result;
     }
