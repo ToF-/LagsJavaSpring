@@ -50,14 +50,47 @@ public class OrderController {
         Optional<Order> found = repository.findOrderById(orderId);
         if(found.isPresent()) {
             Order order = found.get();
-            OrderForm orderForm = new OrderForm(order);
+            OrderForm orderForm = new OrderForm(order.getId(),
+                    order.getCustomerId(),
+                    LocalDate.ofYearDay(order.getStart()/1000,order.getStart()%1000),
+                    order.getDuration(),
+                    order.getPrice());
             model.addAttribute("orderForm", orderForm);
             return "/orderUpdate";
         }
         return String.format("redirect:/customers"); // should be an error page
     }
-    @PostMapping("/orderUpdate/{id}")
-    public String postOrderUpdate(@PathVariable("id") String orderId, Model model, @Valid OrderForm orderForm, BindingResult bindingResult) {
+    @PostMapping("/orderUpdate")
+    public String postOrderUpdate(Model model, @Valid OrderForm orderForm, BindingResult bindingResult) {
+        if(repository.updateOrder(orderForm.getOrder())) {
+            System.out.println("update done");
+            System.out.println(String.format("redirect:/customerUpdate/%s", orderForm.getCustomerId()));
+            return String.format("redirect:/customerUpdate/%s", orderForm.getCustomerId());
+        }
             return "/orderUpdate";
         }
+    @GetMapping("/orderDelete/{id}")
+    public String getOrderDelete(@PathVariable("id") String orderId, Model model) {
+        Optional<Order> found = repository.findOrderById(orderId);
+        if(found.isPresent()) {
+            Order order = found.get();
+            OrderForm orderForm = new OrderForm(order.getId(),
+                    order.getCustomerId(),
+                    LocalDate.ofYearDay(order.getStart()/1000,order.getStart()%1000),
+                    order.getDuration(),
+                    order.getPrice());
+            model.addAttribute("orderForm", orderForm);
+            return "/orderDelete";
+        }
+        return String.format("redirect:/customers"); // should be an error page
+    }
+    @PostMapping("/orderDelete/{id}")
+    public String postOrderDelete(@PathVariable("id") String orderId, Model model, @Valid OrderForm orderForm, BindingResult bindingResult) {
+        if(repository.deleteOrder(orderForm.getId())) {
+            System.out.println("delete done");
+            System.out.println(String.format("redirect:/customerUpdate/%s", orderForm.getCustomerId()));
+            return String.format("redirect:/customerUpdate/%s", orderForm.getCustomerId());
+        }
+        return "/orderDelete";
+    }
 }

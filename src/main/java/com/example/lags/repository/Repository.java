@@ -23,4 +23,8 @@ public interface Repository {
     List<Order> findOrders(LocalDate start, LocalDate end);
 
     Optional<Order> findOrderById(String orderId);
+
+    boolean deleteOrder(String id);
+
+    boolean updateOrder(Order order);
 }

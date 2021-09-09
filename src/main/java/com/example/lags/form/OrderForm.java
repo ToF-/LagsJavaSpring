@@ -36,14 +36,6 @@ public class OrderForm {
         this.price = price;
     }
 
-    public OrderForm(Order order) {
-        this.id = order.getId();
-        this.customerId = order.getCustomerId();
-        this.start = LocalDate.ofYearDay(order.getStart()/1000, order.getStart()%1000);
-        this.duration = order.getDuration();
-        this.price = order.getPrice();
-    }
-
     public void setId(String id) {
         this.id = id;
     }

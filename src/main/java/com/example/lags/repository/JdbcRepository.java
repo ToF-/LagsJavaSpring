@@ -104,4 +104,26 @@ public class JdbcRepository implements Repository {
         else
             return Optional.empty();
     }
+
+    @Override
+    public boolean deleteOrder(String id) {
+        try {
+            jdbcTemplate.update("DELETE FROM ORDERS WHERE Id = ?", id);
+        }
+        catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean updateOrder(Order order) {
+        try {
+            jdbcTemplate.update("UPDATE ORDERS SET Start = ?, Duration = ?, Price = ? WHERE Id = ?", order.getStart(), order.getDuration(), order.getPrice(), order.getId());
+        }
+        catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
 }
