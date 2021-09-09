@@ -45,6 +45,9 @@ public class RevenueForm {
 
     public void computeRevenue() {
         RevenueCalculator revenueCalculator = new RevenueCalculator();
-        this.revenue = revenueCalculator.computeRevenue(orders);
+        this.revenue = revenueCalculator.fastComputeRevenue(orders);
+        System.out.println(revenue);
+        this.revenue = revenueCalculator.fastComputeRevenueGP(orders);
+        System.out.println(revenue);
     }
 }
